@@ -1,18 +1,26 @@
 import { fastify } from 'fastify'
 import pino from 'pino'
-const Port = process.env.PORT
+
+import { config } from './config'
+
+// ---
+
 const server = fastify({
   logger: pino({ level: 'info' })
 })
 
 // register plugin below:
 
-const start = async () => {
+const { PORT } = config
+
+const bootstrap = async () => {
   try {
-    await server.listen(Port!)
+    PORT && (await server.listen(PORT))
   } catch (err) {
     server.log.error
+    console.log(err)
     process.exit(1)
   }
 }
-start()
+
+bootstrap()

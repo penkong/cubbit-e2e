@@ -1,10 +1,10 @@
+# use docker image scanner.
+# it is better PID in code
 FROM node:15.13.0-alpine
 
+RUN apk add --no-cache bash tini curl
 
 ENV PORT=5000
-ENV DBNAME=e2e
-ENV NODE_ENV=development
-
 
 RUN mkdir -p /app
 WORKDIR "/app"
@@ -13,17 +13,27 @@ WORKDIR "/app"
 COPY package*.json ./
 
 
-
+RUN chown -R node:node .
+USER node
 RUN npm config set unsafe-perm true
+
 # we use npm ci here so only the package-lock.json file is used
 RUN npm config list \
     && npm ci \
     && npm cache clean --force
 
 
-COPY . .
+
+COPY --chown=node:node . .
+
+RUN cd /app/src
+
 EXPOSE 5000
 
+# entrypoint frist run and wrap cmd
+# tini run as main process and if we SIGINT or SIGTERM
+# it will remove node process as zombie process .
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["npm", "run", "dev"]
 
 
