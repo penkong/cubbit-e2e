@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { App } from './App'
 import { store, persistor } from './store'
 import { history, reportWebVitals } from './util'
+import GlobalStyles from './styles/global'
 
 // ---
 
@@ -20,6 +21,7 @@ ReactDOM.render(
         <ConnectedRouter noInitialPop history={history}>
           <React.StrictMode>
             <App />
+            <GlobalStyles />
           </React.StrictMode>
         </ConnectedRouter>
       </BrowserRouter>
