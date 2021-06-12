@@ -1,0 +1,29 @@
+version: '3.4'
+services:
+
+  # nginx:
+  #   stdin_open: true
+
+  sql:
+    stdin_open: true
+
+  api:
+    build: 
+      dockerfile: Dockerfile.dev
+    stdin_open: true
+    volumes: 
+      - /app/node_modules 
+      - ../../app/api:/app
+    environment:
+      - PORT=5000
+
+  web: 
+    build:
+      dockerfile: Dockerfile.dev
+    stdin_open: true
+    volumes: 
+      - /app/node_modules
+      - ../../app/web:/app
+    environment: 
+      - API=http://api:5000
+

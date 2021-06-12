@@ -1,0 +1,41 @@
+
+version: '3.4'
+services:
+
+  # nginx:
+  #   image: 'nginx:stable-alpine'
+  #   ports: 
+  #     - 80:80
+  #     - 443:443
+  #   tty: true
+  #   depends_on: 
+  #     # - sql
+  #     # - api
+  #     # - web
+  #   volumes: 
+  #     # remember!!!!!!! add trust proxy to nodejs services
+  #     - ../../app/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro #read only 
+
+  sql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+
+  api:
+    build: 
+      context: ../../app/api
+    restart: always
+    depends_on:
+      - sql
+  
+  web: 
+    build:
+      context: ../../app/web
+    restart: always
+    depends_on: 
+      - api
+
+volumes:
+  sqlvol:
+    driver: local
