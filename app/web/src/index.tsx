@@ -8,9 +8,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import { App } from './App'
-import { history } from './util'
 import { store, persistor } from './store'
-import { reportWebVitals } from './reportWebVitals'
+import { history, reportWebVitals } from './util'
 
 // ---
 

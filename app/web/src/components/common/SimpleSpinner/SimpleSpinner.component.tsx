@@ -1,4 +1,4 @@
-import './Spinner.style.scss'
+import './SimpleSpinner.style.scss'
 
 export function SimpleSpinner() {
   return (

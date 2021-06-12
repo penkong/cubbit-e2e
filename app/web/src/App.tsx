@@ -1,20 +1,23 @@
 import { Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, useLocation } from 'react-router-dom'
 
-import { ErrorBoundary, Spinner } from './components/'
+import { ErrorBoundary, SimpleSpinner } from './components'
 
 // ---
 
-export const App = () => (
-  <>
-    <Switch location={location} key={location.pathname}>
-      <ErrorBoundary>
-        <Suspense fallback={<Spinner />}>
-          <Route exact path="/">
-            <div>hello</div>
-          </Route>
-        </Suspense>
-      </ErrorBoundary>
-    </Switch>
-  </>
-)
+export const App = () => {
+  const location = useLocation()
+  return (
+    <>
+      <Switch location={location} key={location.pathname}>
+        <ErrorBoundary>
+          <Suspense fallback={<SimpleSpinner />}>
+            <Route exact path="/">
+              <div>hello</div>
+            </Route>
+          </Suspense>
+        </ErrorBoundary>
+      </Switch>
+    </>
+  )
+}
