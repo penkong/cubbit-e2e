@@ -16,7 +16,11 @@ services:
   #     # remember!!!!!!! add trust proxy to nodejs services
   #     - ../../app/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro #read only 
 
-  # sql:
+  sql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
 
   api:
     build: 

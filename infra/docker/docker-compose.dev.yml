@@ -5,7 +5,6 @@ services:
   #   stdin_open: true
 
   sql:
-    restart: always
     stdin_open: true
 
   api:
