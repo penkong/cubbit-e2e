@@ -6,6 +6,15 @@ services:
 
   sql:
     stdin_open: true
+    volumes: 
+      - sqlvol:/var/lib/mysql
+    environment: 
+      MYSQL_DATABASE: e2ecubbit
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: password
+      MYSQL_USER: user
+    ports:
+      - 3306:3306
 
   api:
     build: 
@@ -16,7 +25,9 @@ services:
       - ../../app/api:/app
     environment:
       - PORT=5000
-
+    ports:
+      - 5000:5000
+      
   web: 
     build:
       dockerfile: Dockerfile.dev
@@ -26,4 +37,6 @@ services:
       - ../../app/web:/app
     environment: 
       - API=http://api:5000
-
+      - NODE_ENV=development
+    ports: 
+      - 3000:3000

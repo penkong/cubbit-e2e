@@ -19,8 +19,7 @@ services:
   sql:
     image: mysql
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
+
 
   api:
     build: 
