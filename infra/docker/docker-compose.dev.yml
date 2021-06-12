@@ -6,8 +6,15 @@ services:
 
   sql:
     stdin_open: true
+    # command: --init-file ../../app/mysql-init/init.sql
+    # entrypoint: # create db if not exist
+    #     sh -c "
+    #       echo ../../app/mysql-init/init.sql > /docker-entrypoint-initdb.d/init.sql;
+    #       /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8 --collation-server=utf8_general_ci " 
     volumes: 
+      - ../../app/mysql-init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - sqlvol:/var/lib/mysql
+      # - ../../app/mysql-init/init.sql:/data/application/init.sql
     environment: 
       MYSQL_DATABASE: e2ecubbit
       MYSQL_ROOT_PASSWORD: password
