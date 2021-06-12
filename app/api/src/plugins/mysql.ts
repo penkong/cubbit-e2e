@@ -13,27 +13,18 @@ const connectionString = process.env
 
 // ---
 
-console.log(connectionString)
-
 export default fp(async (fastify, opts) => {
   fastify
     .register(require('fastify-mysql'), {
       promise: true,
       connectionString
     })
-    .ready(async () => {
+    .ready(() => {
       console.log('db connected!!!')
 
-      const connection = await fastify.mysql.getConnection()
-      const [rows, _] = await connection.query('SHOW DATABASES;')
-      const [rowss, __] = await connection.query('SHOW TABLES;')
-
-      console.log(rows, '1')
-      console.log(rowss, '1')
-
-      connection.release()
-
-      // console.log(sl)
+      // const connection = await fastify.mysql.getConnection()
+      // const [rows, _] = await connection.query('SHOW DATABASES;')
+      // connection.release()
     })
 })
 
