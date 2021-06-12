@@ -1,13 +1,31 @@
+import './index.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
+import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'connected-react-router'
+import { PersistGate } from 'redux-persist/integration/react'
+
+import { App } from './App'
+import { history } from './util'
+import { store, persistor } from './store'
+import { reportWebVitals } from './reportWebVitals'
+
+// ---
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <BrowserRouter>
+        <ConnectedRouter noInitialPop history={history}>
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+        </ConnectedRouter>
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>,
   document.getElementById('root')
 )
 

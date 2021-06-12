@@ -1,8 +1,20 @@
-import React from 'react'
-import './App.css'
+import { Suspense } from 'react'
+import { Route, Switch } from 'react-router-dom'
 
-function App() {
-  return <div className="App"></div>
-}
+import { ErrorBoundary, Spinner } from './components/'
 
-export default App
+// ---
+
+export const App = () => (
+  <>
+    <Switch location={location} key={location.pathname}>
+      <ErrorBoundary>
+        <Suspense fallback={<Spinner />}>
+          <Route exact path="/">
+            <div>hello</div>
+          </Route>
+        </Suspense>
+      </ErrorBoundary>
+    </Switch>
+  </>
+)
