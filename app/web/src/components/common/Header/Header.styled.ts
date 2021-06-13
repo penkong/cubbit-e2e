@@ -46,12 +46,12 @@ export const NavItems = styled.div`
   }
 `
 
-export const Item = styled.button<{ lang?: boolean }>`
+export const Item = styled.button<{ color?: string }>`
   min-width: 48%;
   width: 116px;
   min-height: 90%;
   height: 36px;
   color: white;
-  background-color: #363636;
+  background-color: ${({ color }) => (color ? color : '#009EFF')};
   border-radius: 2px;
 `

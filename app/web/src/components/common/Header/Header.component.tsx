@@ -15,7 +15,7 @@ export const Header = () => {
           }}
         />
         <NavItems>
-          <Item>Encrypted</Item>
+          <Item color="#363636">Encrypted</Item>
           <Item>English</Item>
         </NavItems>
       </NavRow>
