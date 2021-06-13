@@ -1,12 +1,15 @@
-import { Container, ItemRow, Logo, NavItems } from './Header.styled'
+import { Container, NavRow, Logo, NavItems, Item } from './Header.styled'
 
 export const Header = () => {
   return (
     <Container>
-      <ItemRow>
+      <NavRow>
         <Logo src="/files/Logo.png" alt="here" />
-        <NavItems />
-      </ItemRow>
+        <NavItems>
+          <Item>Encrypted</Item>
+          <Item>English</Item>
+        </NavItems>
+      </NavRow>
     </Container>
   )
 }

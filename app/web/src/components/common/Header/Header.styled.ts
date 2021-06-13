@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  cursor: pointer;
   position: absolute;
   height: 72px;
   left: 0%;
@@ -10,7 +9,7 @@ export const Container = styled.div`
   background: #292929;
 `
 
-export const ItemRow = styled.div`
+export const NavRow = styled.div`
   width: 85vw;
   height: 100%;
   display: flex;
@@ -28,6 +27,25 @@ export const NavItems = styled.div`
   height: 40px;
   border-radius: 2px;
   background-color: #009eff;
+  color: black;
   background-size: cover;
   margin-left: auto;
+  background-blend-mode: screen;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`
+
+export const Item = styled.button`
+  min-width: 48%;
+  width: 116px;
+  min-height: 90%;
+  height: 36px;
+  color: white;
+  background-color: #363636;
+  border-radius: 2px;
 `
