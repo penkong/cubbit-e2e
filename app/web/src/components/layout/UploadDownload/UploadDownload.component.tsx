@@ -22,7 +22,6 @@ const STR = {
 
 export const UploadDownload = () => {
   const [file, setFile] = useState<FileList>()
-  // const ref = useRef<any>()
   const forDrop = useRef<any>()
   // const dispatch = useDispatch()
 
