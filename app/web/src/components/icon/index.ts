@@ -1,1 +1,1 @@
-export {}
+export * from './RemoveIcon/RemoveIcon.component'

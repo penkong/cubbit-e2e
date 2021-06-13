@@ -10,8 +10,8 @@ import { CuteSpinner, ShowStaticFile } from '../../components'
 interface IAppProps {}
 
 export const Landing: FC<IAppProps> = () => {
-  const [show, setShow] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [show, _setShow] = useState(false)
+  const [loading, _setLoading] = useState(false)
 
   // ---
 

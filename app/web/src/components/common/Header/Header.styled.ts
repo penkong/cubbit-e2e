@@ -38,7 +38,7 @@ export const NavItems = styled.div`
   align-items: center;
   @media (max-width: 768px) {
     position: absolute;
-    top: 11vh;
+    top: 12vh;
     left: 0;
     right: 0;
     margin-left: auto;
