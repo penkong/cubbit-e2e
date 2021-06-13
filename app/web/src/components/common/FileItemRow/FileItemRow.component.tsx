@@ -11,9 +11,11 @@ interface IAppProps {
 const RowStyled = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
-  width: 40%;
+  width: 30%;
+  @media (max-width: 1400px) {
+    width: 40%;
+  }
   @media (max-width: 978px) {
     width: 60%;
   }
@@ -29,7 +31,7 @@ const RowStyled = styled.div`
   }
   height: 100%;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   .label {
     padding-top: auto;
     margin-top: 2px;
@@ -39,9 +41,13 @@ const RowStyled = styled.div`
     padding-right: 9px;
     padding-top: 5px;
     height: 30px;
-    @media (max-width: 375px) {
+    @media (max-width: 400px) {
+      font-weight: 400;
+    }
+    @media (max-width: 377px) {
       width: 20%;
-      padding-right: 2px;
+      padding-right: 7px;
+      margin-top: 7px;
       font-size: 10px;
     }
   }
@@ -57,7 +63,7 @@ const RowStyled = styled.div`
     text-align: left;
     height: 30px;
     border-radius: 3px;
-    padding-left: 10px;
+    padding-left: 15px;
   }
 `
 

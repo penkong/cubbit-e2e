@@ -40,6 +40,7 @@ export const BtnStyled = styled.button`
   &:hover {
     background-color: #ff8b1e;
   }
+  margin-left: -1vh;
   border-radius: 3px;
   color: white;
   width: 216px;
@@ -67,7 +68,8 @@ export const RowContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 22vh;
+  height: 18vh;
+  margin-left: -3vw;
   width: 100%;
 `
 
@@ -77,18 +79,25 @@ const DownloadContainer = styled.div`
   justify-content: space-around;
   flex-direction: column;
   align-items: center;
+  margin-top: 14vh;
   height: 50vh;
 `
 
 export const EncryptionInputStyled = styled.input`
-  width: 30vw;
-  margin-left: 2vw;
+  width: 24vw;
+  margin-left: -2vw;
+  @media (max-width: 1400px) {
+    margin-left: -1vw;
+    width: 30vw;
+  }
   @media (max-width: 998px) {
-    margin-left: 3vw;
     width: 46vw;
   }
   @media (max-width: 778px) {
     width: 54vw;
+  }
+  @media (max-width: 640px) {
+    width: 62vw;
   }
   @media (max-width: 550px) {
     margin-left: 5vw;
@@ -113,7 +122,15 @@ const InsertKeyRowStyled = styled.div`
   align-items: center;
   height: 20%;
 `
-
+export const TitleStyled = styled.div`
+  font-weight: 400;
+  margin-top: -1vh;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 26px;
+  text-align: center;
+  color: white;
+`
 export const FileGetter = () => {
   const [state, setstate] = useState(true)
 
@@ -130,7 +147,7 @@ export const FileGetter = () => {
           <FileItemRow label={'File mime:'} info={'text/plain'} />
         </RowContainer>
         <InsertKeyRowStyled>
-          <GetterTitleStyled>Insert your encryption key:</GetterTitleStyled>
+          <TitleStyled>Insert your encryption key:</TitleStyled>
           <div>
             <EncryptionInputStyled
               type="text"
