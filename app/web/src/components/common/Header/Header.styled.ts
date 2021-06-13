@@ -20,6 +20,7 @@ export const NavRow = styled.div`
 
 export const Logo = styled.img`
   margin-left: 2vw;
+  cursor: pointer;
 `
 
 export const NavItems = styled.div`
@@ -36,11 +37,16 @@ export const NavItems = styled.div`
   justify-content: space-around;
   align-items: center;
   @media (max-width: 768px) {
-    display: none;
+    position: absolute;
+    top: 11vh;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
   }
 `
 
-export const Item = styled.button`
+export const Item = styled.button<{ lang?: boolean }>`
   min-width: 48%;
   width: 116px;
   min-height: 90%;
