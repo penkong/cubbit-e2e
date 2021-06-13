@@ -14,7 +14,7 @@ export default createGlobalStyle`
   html, body, #root {
     height: 100%;
   }
-  div, button {
+  div, button, span {
     font-family: 'Nunito', sans-serif;
   }
 

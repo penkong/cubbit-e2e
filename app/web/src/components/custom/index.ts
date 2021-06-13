@@ -1,1 +1,1 @@
-export {}
+export * from './ShowFile/ShowFile.component'
