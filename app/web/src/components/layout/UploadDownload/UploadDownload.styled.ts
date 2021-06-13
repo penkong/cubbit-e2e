@@ -20,6 +20,8 @@ export const UploaderStyled = styled.div`
   @media (max-width: 590px) {
     width: 100vw;
   }
+  input {
+  }
 `
 
 export const BtnRowStyled = styled.div`
@@ -40,10 +42,11 @@ export const BtnRowStyled = styled.div`
   }
 `
 
-export const BtnStyled = styled.button<{ upload?: true }>`
+export const BtnStyled = styled.button<{ upload?: true; disabled?: boolean }>`
   width: 168px;
   height: 48px;
   background-color: ${props => (props.upload ? '#009eff' : '#0065ff')};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   color: white;
   text-align: center;
   border-radius: 3px;
