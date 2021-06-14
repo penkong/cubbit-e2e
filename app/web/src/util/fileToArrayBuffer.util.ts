@@ -12,7 +12,10 @@ export function fileToArrayBuffer(
       resolve(e.target!.result)
     }
 
+    // if crpyto-js bug fix we can leverage array buffer and
+    // encrypt other formats like jpeg and pdf and ...
     // reader.readAsArrayBuffer(file)
+
     reader.readAsBinaryString(file)
   })
 }

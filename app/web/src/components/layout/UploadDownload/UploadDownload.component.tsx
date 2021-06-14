@@ -17,6 +17,7 @@ import {
   history,
   makeKey
 } from '../../../util'
+import { useDispatch } from 'react-redux'
 
 // ---
 
@@ -31,6 +32,7 @@ interface IFile {
 
 export const UploadDownload = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const forDrop = useRef<any>()
 
   const [inLoading, setInLoading] = useState(false)
@@ -88,6 +90,7 @@ export const UploadDownload = () => {
   }
 
   const onFileUpload = async () => {
+    dispatchEvent()
     try {
       const hashed = await hashWorker(info!, file?.key!)
       console.log(hashed)

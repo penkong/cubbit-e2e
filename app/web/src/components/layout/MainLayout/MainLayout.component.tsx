@@ -1,7 +1,6 @@
 import { FC } from 'react'
-
-import { Header } from '../../common/'
 import { useTranslation } from 'react-i18next'
+
 import {
   CenterContainerStyled,
   ContainerStyled,
@@ -9,6 +8,8 @@ import {
   MainContainerStyled,
   TitleStyled
 } from './MainLayout.styled'
+
+import { Header } from '../../common/'
 
 // ---
 

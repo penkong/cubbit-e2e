@@ -3,11 +3,21 @@ const sjcl = require('sjcl')
 export async function ecnryptor(info: string | ArrayBuffer, key: string) {
   let parameters = { iter: 1000 }
   let rp = {}
-  await sjcl(key, parameters)
-  const cipherTextJson = await sjcl(key, info, parameters, rp)
-  let decryptedText = await sjcl(key, cipherTextJson)
-  return decryptedText
+  const dkey = atob(key)
+  await sjcl(dkey, parameters)
+  // produce cipherTextJson
+  return await sjcl.encrypt(dkey, info, parameters, rp)
 }
+
+//
+//
+//
+//
+//
+//
+//
+//                THIS CRYPTO-JS CURRENTLY DOES NOT WORK WITH WEBPACK 5 CURRENTLY
+//
 
 // let crypto: any
 // try {

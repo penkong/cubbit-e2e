@@ -1,7 +1,6 @@
 import { useState, FC } from 'react'
 
-import { UploadDownload } from '../../components/layout/UploadDownload/UploadDownload.component'
-import { CuteSpinner, ShowStaticFile } from '../../components'
+import { CuteSpinner, ShowStaticFile, UploadDownload } from '../../components'
 
 // ---
 
