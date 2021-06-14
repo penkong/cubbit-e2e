@@ -10,6 +10,7 @@ import {
   SubHeaderStyled
 } from './UploadDownload.styled'
 
+import { useTranslation } from 'react-i18next'
 // ---
 
 const STR = {
@@ -21,19 +22,21 @@ const STR = {
 }
 
 export const UploadDownload = () => {
-  const [file, setFile] = useState<FileList>()
   const forDrop = useRef<any>()
-  // const dispatch = useDispatch()
+  const [file, setFile] = useState<FileList | null>()
+  const { t } = useTranslation()
 
   useEffect(() => {
-    let div = forDrop.current
-    div.addEventListener('dragover', handleDrag)
-    div.addEventListener('drop', handleDrop)
-    return () => {
-      div.removeEventListener('dragover', handleDrag)
-      div.removeEventListener('drop', handleDrop)
+    if (forDrop) {
+      let div = forDrop.current
+      div.addEventListener('dragover', handleDrag)
+      div.addEventListener('drop', handleDrop)
+      return () => {
+        div.removeEventListener('dragover', handleDrag)
+        div.removeEventListener('drop', handleDrop)
+      }
     }
-  }, [file])
+  }, [t])
 
   const handleDrag = (e: any) => {
     e.preventDefault()
@@ -59,10 +62,7 @@ export const UploadDownload = () => {
 
   return (
     <>
-      <SubHeaderStyled>
-        {STR.title1}
-        {STR.title2}
-      </SubHeaderStyled>
+      <SubHeaderStyled>{t('adver')}</SubHeaderStyled>
 
       <UploaderStyled>
         <div className="droparea" ref={forDrop}>
@@ -77,7 +77,7 @@ export const UploadDownload = () => {
               />
               <label htmlFor="filePicker" className="button">
                 <img src="/files/dl.png" alt="download" />
-                <div>Choose file!</div>
+                <div>{t('choose')}</div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -92,18 +92,29 @@ export const UploadDownload = () => {
           ) : (
             <div className="readyforhash">
               <img src="/files/readyforhash.png" alt="ready for upload" />
-              <div>{file[0].name}</div>
-              <div
-                onClick={() => {
-                  setFile(undefined)
-                }}
-              >
-                <RemoveIcon />
-              </div>
+              <div>{file ? file[0].name : null}</div>
+              {file[0] && (
+                <div
+                  style={{
+                    backgroundColor: '#292929',
+                    fontSize: '11px',
+                    letterSpacing: '1.5px',
+                    cursor: 'pointer',
+                    color: 'white',
+                    padding: '3px 6px'
+                  }}
+                  onClick={() => {
+                    file && setFile(null)
+                  }}
+                >
+                  remove
+                </div>
+              )}
             </div>
           )}
         </div>
       </UploaderStyled>
+
       <BtnRowStyled>
         <BtnStyled
           upload

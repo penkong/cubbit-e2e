@@ -132,7 +132,7 @@ export const TitleStyled = styled.div`
   color: white;
 `
 export const FileGetter = () => {
-  const [state, _setstate] = useState(true)
+  const [state, setstate] = useState(true)
 
   if (state) {
     return (
