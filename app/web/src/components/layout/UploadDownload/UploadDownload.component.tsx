@@ -1,74 +1,51 @@
-import { useEffect, useRef, useState } from 'react'
+import { useWorker } from '@koale/useworker'
 import { useTranslation } from 'react-i18next'
+import { useEffect, useRef, useState } from 'react'
+
 // import { useDispatch } from 'react-redux'
 
-import { history } from '../../../util'
 import {
   BtnStyled,
   BtnRowStyled,
   UploaderStyled,
   SubHeaderStyled
 } from './UploadDownload.styled'
+import {
+  allStringFormats,
+  ecnryptor,
+  fileToArrayBuffer,
+  history,
+  makeKey
+} from '../../../util'
 
-import { useWorker } from '@koale/useworker'
-const sjcl = require('sjcl')
 // ---
 
-async function encrypter(info: any) {
-  // const ENCRYPTION_KEY = '12345678901234567890123456789012' // Must be 256 bits (32 characters)
-  // const IV_LENGTH = 16 // For AES, this is always 16
-  // let iv = crypto.randomBytes(IV_LENGTH)
-  // console.log(1)
-  // let cipher = crypto.createCipheriv(
-  //   'aes-256-cbc',
-  //   Buffer.from(ENCRYPTION_KEY),
-  //   iv
-  // )
-  // console.log(2)
-  // // console.log(info)
-  // let encrypted = cipher.update(info)
-  // console.log(3)
-
-  // encrypted = Buffer.concat([encrypted, cipher.final()])
-
-  // return iv.toString('hex') + ':' + encrypted.toString('hex')
-  // console.log(info)
-  // return await crypto.AES.encrypt(
-  //   JSON.stringify('fsdfsdfsdfsdf'),
-  //   'my-secret-key@123'
-  // ).toString()
-
-  var password = 'password'
-  // var text = 'my secret text'
-  var parameters = { iter: 1000 }
-  var rp = {}
-  var cipherTextJson = {}
-
-  await sjcl.misc.cachedPbkdf2(password, parameters)
-  // await sjcl.encrypt(password, text, parameters, rp)
-  cipherTextJson = await sjcl.encrypt(password, info, parameters, rp)
-  return cipherTextJson
-  // var decryptedText = await sjcl.decrypt(password, cipherTextJson)
-  // console.log(decryptedText)
+interface IFile {
+  name: string
+  mime: string
+  size: string
+  key: string
 }
 
-const STR = {
-  title1: 'Advnced online file encryption and decryption.',
-  title2: 'Secure any file type and maintain your privcy!',
-  choose: 'Choose file!',
-  btnEnc: 'Encrypt and upload',
-  btnDl: 'Download and decrypt'
-}
+// ---
 
 export const UploadDownload = () => {
+  const { t } = useTranslation()
   const forDrop = useRef<any>()
-  const [file, setFile] = useState<string | ArrayBuffer | null | undefined>()
-  const [sortWorker] = useWorker(encrypter, {
+
+  const [inLoading, setInLoading] = useState(false)
+
+  const [file, setFile] = useState<IFile>()
+  const [info, setInfo] = useState<string | ArrayBuffer | null | undefined>()
+
+  // --- web worker
+  const [hashWorker] = useWorker(ecnryptor, {
     remoteDependencies: [
       'https://cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.8/sjcl.js'
     ]
   })
-  const { t } = useTranslation()
+
+  // ---
 
   useEffect(() => {
     if (forDrop) {
@@ -80,7 +57,10 @@ export const UploadDownload = () => {
         div.removeEventListener('drop', handleDrop)
       }
     }
-  }, [t, file])
+    console.log(inLoading)
+  }, [t, inLoading])
+
+  // ---
 
   const handleDrag = (e: any) => {
     e.preventDefault()
@@ -93,28 +73,31 @@ export const UploadDownload = () => {
     e.dataTransfer.files && setFile(e.dataTransfer.files)
   }
 
+  const onFileChange = async (f: File) => {
+    //
+
+    setFile({
+      name: file?.name!,
+      size: file?.size!,
+      mime: file?.mime!,
+      key: makeKey() // base64
+    })
+
+    if (window.File && window.FileReader && window.FileList && window.Blob)
+      setInfo(await fileToArrayBuffer(f))
+  }
+
   const onFileUpload = async () => {
     try {
-      const sl = await sortWorker(file)
-      console.log(typeof sl)
+      const hashed = await hashWorker(info!, file?.key!)
+      console.log(hashed)
+      // diapatch({ ...file! , info: hashed})
     } catch (error) {
       console.log(error)
     }
   }
 
-  // const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const onFileChange = async (f: File) => {
-    console.log(f)
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-      let fileData = new FileReader()
-      fileData.onloadend = function (e) {
-        // setFile(e.target?.result)
-        const c = fileData.result
-        setFile(c)
-      }
-      fileData.readAsText(f)
-    }
-  }
+  // ---
 
   return (
     <>
@@ -122,54 +105,64 @@ export const UploadDownload = () => {
 
       <UploaderStyled>
         <div className="droparea" ref={forDrop}>
-          {!file ? (
-            <>
-              <input
-                type="file"
-                id="filePicker"
-                // accept=""
-                onChange={e => onFileChange(e.target.files![0])}
-              />
-              <label htmlFor="filePicker" className="button">
-                <img src="/files/dl.png" alt="download" />
-                <div>{t('choose')}</div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                </svg>
-              </label>
-              <p>or drop files here</p>
-            </>
+          {inLoading ? (
+            <div>helfdsf</div>
           ) : (
-            <div className="readyforhash">
-              <img src="/files/readyforhash.png" alt="ready for upload" />
-              <div>{file ? 'sdfsd' : null}</div>
-              {file && (
-                <div
-                  style={{
-                    backgroundColor: '#292929',
-                    fontSize: '11px',
-                    letterSpacing: '1.5px',
-                    cursor: 'pointer',
-                    color: 'white',
-                    padding: '3px 6px'
+            (!file && !inLoading && (
+              <>
+                <input
+                  type="file"
+                  id="filePicker"
+                  accept={`text/*,.txt,.json,.ts,.js,.tsx,.cpp,.h,.csv,.doc,.docx,
+                  application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                  application/vnd.ms-excel,${allStringFormats.join(',')}`}
+                  onChange={e => {
+                    setInLoading(true)
+                    onFileChange(e.target.files![0])
+                    setInLoading(false)
                   }}
-                  onClick={() => {
-                    file && setFile(null)
-                  }}
-                >
-                  remove
-                </div>
-              )}
-            </div>
+                />
+                <label htmlFor="filePicker" className="button">
+                  <img src="/files/dl.png" alt="download" />
+                  <div>{t('choose')}</div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                  </svg>
+                </label>
+                <p>or drop files here up to 500MB</p>
+              </>
+            )) ||
+            (file && !inLoading && (
+              <div className="readyforhash">
+                <img src="/files/readyforhash.png" alt="ready for upload" />
+                <div>{file ? 'sdfsd' : null}</div>
+                {file && (
+                  <div
+                    style={{
+                      backgroundColor: '#292929',
+                      fontSize: '11px',
+                      letterSpacing: '1.5px',
+                      cursor: 'pointer',
+                      color: 'white',
+                      padding: '3px 6px'
+                    }}
+                    onClick={() => {
+                      file && setFile(undefined)
+                    }}
+                  >
+                    remove
+                  </div>
+                )}
+              </div>
+            ))
           )}
         </div>
       </UploaderStyled>
-      {/* <button onClick={() => {}}>sssssslllllllllllllllllllllll</button> */}
 
       <BtnRowStyled>
         <BtnStyled
@@ -177,14 +170,14 @@ export const UploadDownload = () => {
           onClick={onFileUpload}
           disabled={file === undefined ? true : false}
         >
-          {STR.btnEnc}
+          Encrypt and upload
         </BtnStyled>
         <BtnStyled
           onClick={() => {
             history.push('/getter')
           }}
         >
-          {STR.btnDl}
+          Download and decrypt
         </BtnStyled>
       </BtnRowStyled>
     </>
