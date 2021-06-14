@@ -1,6 +1,6 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { Header } from '../../common/'
 import {
   CenterContainerStyled,
   ContainerStyled,
@@ -9,21 +9,21 @@ import {
   TitleStyled
 } from './MainLayout.styled'
 
+import { Header } from '../../common/'
+
 // ---
 
 export const MainLayout: FC = ({ children }) => {
+  const { t } = useTranslation()
   return (
     <>
       <MainContainerStyled>
         <Header />
-        <TitleStyled>Cubbit Vult!</TitleStyled>
+        <TitleStyled>{t('mainTitle')}</TitleStyled>
         <CenterContainerStyled>
           <ContainerStyled>{children}</ContainerStyled>
         </CenterContainerStyled>
-        <FooterStyled>
-          The whole is never the sum of the parts - it is greater or lesser,
-          depending on how well the individuls work together
-        </FooterStyled>
+        <FooterStyled>{t('quote')}</FooterStyled>
       </MainContainerStyled>
     </>
   )

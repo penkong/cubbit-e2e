@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo } from 'react'
+import { Component, ErrorInfo } from 'react'
 
 // ---
 
@@ -21,7 +21,6 @@ export class ErrorBoundary extends Component<AppProps> {
     if (this.state.hasError) {
       return (
         <div>
-          <div />
           <h2>Sorry this page is broken.</h2>
         </div>
       )
