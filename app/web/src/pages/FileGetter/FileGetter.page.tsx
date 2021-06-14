@@ -142,7 +142,7 @@ export const FileGetter = () => {
             label={'File id:'}
             info={'307f8f11-f51f-41a2-ba17-3e112dce56a4'}
           />
-          <FileItemRow label={'File id:'} info={'example_file.txt'} />
+          <FileItemRow label={'File name:'} info={'example_file.txt'} />
           <FileItemRow label={'File size:'} info={'100Kb'} />
           <FileItemRow label={'File mime:'} info={'text/plain'} />
         </RowContainer>

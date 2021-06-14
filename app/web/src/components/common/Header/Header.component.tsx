@@ -21,7 +21,7 @@ export const Header = () => {
         <NavItems>
           <Item
             selected={selected === 'it'}
-            onClick={e => {
+            onClick={() => {
               setSelected('it')
               i18n.changeLanguage('it')
             }}
@@ -35,7 +35,7 @@ export const Header = () => {
               i18n.changeLanguage('en')
             }}
           >
-            English
+            {selected === 'en' ? 'English' : "b-&+(2'"}
           </Item>
         </NavItems>
       </NavRow>
