@@ -10,11 +10,7 @@ import {
   SubHeaderStyled
 } from './UploadDownload.styled'
 
-// import fs from 'fs'
-// import { sl } from './sl.txt'
-// const CryptoJS = require('crypto-js')
-// const crypto = require('crypto-browserify')
-// import * as sha256 from 'crypto-js/sha256'
+import { useWorker } from '@koale/useworker'
 const sjcl = require('sjcl')
 // ---
 
@@ -50,11 +46,8 @@ async function encrypter(info: any) {
 
   await sjcl.misc.cachedPbkdf2(password, parameters)
   // await sjcl.encrypt(password, text, parameters, rp)
-  console.log(1)
-
   cipherTextJson = await sjcl.encrypt(password, info, parameters, rp)
-  console.log(2)
-  console.log(cipherTextJson)
+  return cipherTextJson
   // var decryptedText = await sjcl.decrypt(password, cipherTextJson)
   // console.log(decryptedText)
 }
@@ -70,7 +63,11 @@ const STR = {
 export const UploadDownload = () => {
   const forDrop = useRef<any>()
   const [file, setFile] = useState<string | ArrayBuffer | null | undefined>()
-
+  const [sortWorker] = useWorker(encrypter, {
+    remoteDependencies: [
+      'https://cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.8/sjcl.js'
+    ]
+  })
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -98,20 +95,16 @@ export const UploadDownload = () => {
 
   const onFileUpload = async () => {
     try {
-      // const fd = new FormData()
-      // fd.append('mkl', file![0], file![0].name)
-      // console.log(fd)
-      // dispatch(name, fileforupload)
-      // fileData.readAsText(file)
-      // console.log(fileData)
-      console.log(await encrypter(file))
+      const sl = await sortWorker(file)
+      console.log(typeof sl)
     } catch (error) {
       console.log(error)
     }
   }
 
   // const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const onFileChange = (filed: File) => {
+  const onFileChange = async (f: File) => {
+    console.log(f)
     if (window.File && window.FileReader && window.FileList && window.Blob) {
       let fileData = new FileReader()
       fileData.onloadend = function (e) {
@@ -119,7 +112,7 @@ export const UploadDownload = () => {
         const c = fileData.result
         setFile(c)
       }
-      fileData.readAsText(filed)
+      fileData.readAsText(f)
     }
   }
 
