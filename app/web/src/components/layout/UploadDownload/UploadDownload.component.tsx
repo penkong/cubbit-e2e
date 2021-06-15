@@ -90,7 +90,7 @@ export const UploadDownload = () => {
   }
 
   const onFileUpload = async () => {
-    dispatchEvent()
+    // dispatchEvent()
     try {
       const hashed = await hashWorker(info!, file?.key!)
       console.log(hashed)
