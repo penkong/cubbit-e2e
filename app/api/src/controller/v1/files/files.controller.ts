@@ -1,13 +1,13 @@
-import { IncomingMessage, ServerResponse } from 'http'
-
 import { join } from 'path'
-const { pipeline } = require('stream')
+import { IncomingMessage, ServerResponse } from 'http'
 
 const fs = require('fs')
 const util = require('util')
+const { pipeline } = require('stream')
 const formidable = require('formidable')
 
-import { pool } from '../../../index'
+import { pool } from '../../../service'
+import { insertInfo, selectById } from '../../../query/'
 
 // ---
 
@@ -28,28 +28,25 @@ export async function files(
 
       if (err) throw new Error(err)
 
+      // ---
+
+      // write file to disk it can be s3 or any other services
+      // also it can be delegate to child_processes if we want!
       const { data, size, name, mime } = fields
       const address = name + '.' + size + '.txt'
       await pump(data, fs.createWriteStream(join('outputAsS3Bucket', address)))
 
+      // ---
+
+      // after save successfully we write info to db!
       pool.getConnection(function (err, c) {
         if (err) {
           console.log(err)
           c.release()
         }
 
-        const q = `insert into info (
-          file_id, 
-          name, 
-          address, 
-          file_size, 
-          file_mime, 
-          created_at
-        ) values (
-          UUID_TO_BIN(UUID()),?,?,?,?,NOW()); `
-        const v = [name, address, size, mime, name]
-
-        c.query(q, v, er => {
+        // insertion
+        c.query(insertInfo, [name, address, size, mime, name], er => {
           if (er) {
             console.error(er.message)
             c.release()
@@ -57,10 +54,8 @@ export async function files(
           }
         })
 
-        const q2 = `SELECT BIN_TO_UUID(file_id) as file_id FROM info WHERE file_size=?;`
-        const v2 = [size]
-
-        c.query(q2, v2, (er, r) => {
+        // selection
+        c.query(selectById, [size], (er, r) => {
           if (er) {
             console.error(er.message)
             c.release()
