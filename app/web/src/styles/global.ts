@@ -12,7 +12,12 @@ export default createGlobalStyle`
     outline: 0;
   }
   html, body, #root {
-    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 100vh;
+    width: 100vw;
+    max-height: 100vh!;
+    max-width: 100vw!;
   }
   div, button, span {
     font-family: 'Nunito', sans-serif;

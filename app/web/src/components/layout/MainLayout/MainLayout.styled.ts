@@ -20,7 +20,7 @@ export const CenterContainerStyled = styled.div`
   @media (max-width: 500px) {
     min-width: 100vw;
   }
-  min-height: 100vh;
+  height: 100vh;
 `
 export const FooterStyled = styled.div`
   color: white;

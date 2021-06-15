@@ -31,6 +31,14 @@ services:
     build:
       context: ../../app/web
     restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '512M'
+        reservations:
+          cpus: '1'
+          memory: '512M'
     # depends_on: 
       # - api
       # - sql
