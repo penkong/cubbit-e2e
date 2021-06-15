@@ -5,6 +5,7 @@
 // import { Dispatch } from 'redux'
 
 import { E2EActionEnum } from '../types'
+import { Dispatch } from 'redux'
 
 // ---
 
@@ -21,8 +22,11 @@ export const E2ELoadingAction = (payload: boolean) => ({
 export const E2ESendHashedAction = (payload: {
   hashed: string
   key: string
-}) => {
-  console.log(payload)
+}) => async (dispatch: Dispatch) => {
+  //
+
+  dispatch(E2ELoadingAction(true))
+
   return {
     type: E2EActionEnum.SEND_HASHE,
     payload

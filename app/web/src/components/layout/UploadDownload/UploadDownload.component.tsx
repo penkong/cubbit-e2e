@@ -55,6 +55,8 @@ export const UploadDownload = () => {
     E2EFileMetaAction(f)
 
     if (window.File && window.FileReader && window.FileList && window.Blob)
+      // because of crypto-js problem with webpack 5 it currently read to text
+      // not ArrayBuffer . check public/files/ -> there is snap shot there.
       setData(await fileToArrayBuffer(f))
 
     setInLoading(false)
@@ -147,7 +149,7 @@ export const UploadDownload = () => {
             (file && !inLoading && (
               <div className="readyforhash">
                 <img src="/files/readyforhash.png" alt="ready for upload" />
-                <div>{file ? 'sdfsd' : null}</div>
+                <div>{file ? file.name : null}</div>
                 {file && (
                   <div
                     style={{
