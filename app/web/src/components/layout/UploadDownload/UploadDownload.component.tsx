@@ -54,11 +54,9 @@ export const UploadDownload = () => {
     setFile(f)
     E2EFileMetaAction(f)
 
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-      const sl = await fileToArrayBuffer(f)
-      console.log(sl)
-      setData(sl)
-    }
+    if (window.File && window.FileReader && window.FileList && window.Blob)
+      setData(await fileToArrayBuffer(f))
+
     // because of crypto-js problem with webpack 5 it currently read to text
     // not ArrayBuffer . check public/files/ -> there is snap shot there.
 
@@ -147,6 +145,7 @@ export const UploadDownload = () => {
                     <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
                   </svg>
                 </label>
+
                 <p>or drop files here up to 500MB</p>
               </>
             )) ||

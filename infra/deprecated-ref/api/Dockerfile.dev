@@ -2,21 +2,26 @@
 # it is better PID in code
 FROM node:15.13.0-alpine
 
-RUN apk add --no-cache bash tini curl
+RUN apk add --no-cache bash tini curl 
 
+ENV WAIT_VERSION 2.7.2
 ENV PORT=5000
-ENV CORS=http://localhost:3000
-
 
 
 RUN mkdir -p /app
+# RUN mkdir /app/wait 
+
 WORKDIR "/app"
 
 
+# ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
+# RUN chmod +x /app/wait
+
+# RUN ls -la
+# RUN cd .. && ls -la
 COPY package*.json ./
 
 
-RUN npm install -g mongodb
 RUN chown -R node:node .
 USER node
 RUN npm config set unsafe-perm true
@@ -30,10 +35,9 @@ RUN npm config list \
 
 COPY --chown=node:node . .
 
-RUN cd /app/src
-RUN npm link mongodb
+# RUN cd /app/src
 
-EXPOSE 5002
+EXPOSE 5000
 
 # entrypoint frist run and wrap cmd
 # tini run as main process and if we SIGINT or SIGTERM

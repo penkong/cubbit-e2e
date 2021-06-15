@@ -4,9 +4,12 @@
   "private": true,
   "dependencies": {
     "@koale/useworker": "^4.0.2",
+    "@types/axios": "^0.14.0",
     "axios": "^0.21.1",
+    "concat-stream": "^1.6.2",
     "connected-react-router": "^6.9.1",
     "crypto-js": "^4.0.0",
+    "form-data": "^3.0.1",
     "i18next": "^20.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

@@ -1,33 +1,33 @@
-import { join } from 'path'
-import { FastifyPluginAsync } from 'fastify'
+import http, { IncomingMessage, ServerResponse } from 'http'
 
-import AutoLoad, { AutoloadPluginOptions } from 'fastify-autoload'
+import { Router } from './routes'
+import { UrlRefiner } from './service'
+import { cors } from './util'
 
 // ---
-export type AppOptions = {
-  // Place your custom options for app below here.
-} & Partial<AutoloadPluginOptions>
-
-const app: FastifyPluginAsync<AppOptions> = async (
-  fastify,
-  opts
-): Promise<void> => {
-  // Place here your custom code!
-  // Do not touch the following lines
-  // This loads all plugins defined in plugins
-  // those should be support plugins that are reused
-  // through your application
-  void fastify.register(AutoLoad, {
-    dir: join(__dirname, 'plugins'),
-    options: opts
-  })
-  // This loads all plugins defined in routes
-  // define your routes in one of these
-  void fastify.register(AutoLoad, {
-    dir: join(__dirname, 'routes'),
-    options: opts
-  })
+declare global {
+  namespace http {
+    interface IncomingMessage {}
+  }
 }
 
-export default app
-export { app }
+export const app = http.createServer(
+  (req: IncomingMessage, res: ServerResponse) => {
+    //
+    cors(res)
+
+    if (req.url == undefined) return res.end()
+
+    const url = UrlRefiner.maker(req.url)
+
+    const isOk = UrlRefiner.checker(url, req)
+    if (!isOk) {
+      res.writeHead(400, { 'Content-Type': 'application/json' })
+      res.write(JSON.stringify([{ message: 'not exist' }]))
+      res.end()
+      return
+    }
+
+    Router.dispatch(url, req, res)
+  }
+)
