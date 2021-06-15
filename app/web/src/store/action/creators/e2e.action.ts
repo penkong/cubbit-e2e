@@ -10,6 +10,11 @@ import { IApplicationStateModel } from '../../store.interface'
 
 // ---
 
+export const E2EClearStoreAction = () => ({
+  type: E2EActionEnum.CLEARSTORE,
+  payload: null
+})
+
 export const E2EFileMetaAction = (payload: File) => ({
   type: E2EActionEnum.FILE_META,
   payload
@@ -21,7 +26,7 @@ export const E2ELoadingAction = (payload: boolean) => ({
 })
 
 export const E2EKeyAction = (payload: string) => ({
-  type: E2EActionEnum.LOADING,
+  type: E2EActionEnum.ADD_KEY,
   payload
 })
 

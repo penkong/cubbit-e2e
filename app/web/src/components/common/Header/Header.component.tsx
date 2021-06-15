@@ -1,14 +1,21 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { history } from '../../../util/'
+import { useActions } from '../../../hooks/'
 import { Container, NavRow, Logo, NavItems, Item } from './Header.styled'
 
 // ---
 
 export const Header = () => {
   const [selected, setSelected] = useState<'it' | 'en'>('it')
+
   const { i18n } = useTranslation()
+
+  const { E2EClearStoreAction } = useActions()
+
+  // ---
+
   return (
     <Container>
       <NavRow>
@@ -16,6 +23,7 @@ export const Header = () => {
           src="/files/Logo.png"
           alt="here"
           onClick={() => {
+            E2EClearStoreAction()
             history.push('/')
           }}
         />

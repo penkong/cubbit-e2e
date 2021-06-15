@@ -27,6 +27,11 @@ export interface IE2EVerifyEncryptionAction {
   payload: { show: boolean; fileId: string; loading: boolean }
 }
 
+export interface IE2EClearStoreAction {
+  type: E2EActionEnum.CLEARSTORE
+  payload: null
+}
+
 // ---
 
 export type E2EAction =
@@ -35,3 +40,4 @@ export type E2EAction =
   | IE2ESendHashedAction
   | IE2EKeyAction
   | IE2EVerifyEncryptionAction
+  | IE2EClearStoreAction
