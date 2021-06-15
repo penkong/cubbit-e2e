@@ -1,6 +1,7 @@
 FROM node:15.13.0-alpine
 
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash python2 
+
 
 ENV NODE_ENV=development
 ENV API_E2E=http://localhost:5000

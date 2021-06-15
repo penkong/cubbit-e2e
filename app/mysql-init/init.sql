@@ -1,3 +1,7 @@
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+
+flush privileges;
+
 CREATE DATABASE IF NOT EXISTS e2ecubbit;
 
 USE e2ecubbit;
@@ -12,10 +16,10 @@ CREATE TABLE IF NOT EXISTS user (
 
 CREATE TABLE IF NOT EXISTS info (
   file_id binary(16) NOT NULL PRIMARY KEY,
-  name varchar(100) NOT NULL,
-  address varchar(100) NOT NULL,
-  file_size varchar(100) NOT NULL,
-  file_mime varchar(40) NOT NULL,
+  name varchar(300) NOT NULL,
+  address varchar(300) NOT NULL,
+  file_size varchar(300) NOT NULL,
+  file_mime varchar(300) NOT NULL,
   created_at TIMESTAMP NOT NULL,
   deleted_at TIMESTAMP,
   owner int,

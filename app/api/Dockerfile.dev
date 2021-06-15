@@ -16,7 +16,6 @@ WORKDIR "/app"
 COPY package*.json ./
 
 
-RUN npm install -g mongodb
 RUN chown -R node:node .
 USER node
 RUN npm config set unsafe-perm true
@@ -30,8 +29,6 @@ RUN npm config list \
 
 COPY --chown=node:node . .
 
-RUN cd /app/src
-RUN npm link mongodb
 
 EXPOSE 5002
 

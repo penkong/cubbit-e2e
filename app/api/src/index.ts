@@ -1,11 +1,25 @@
 import { app } from './app'
-// import { config } from './config'
+import mysql from 'mysql2'
+
+export const pool = mysql.createPool({
+  connectionLimit: 5,
+  host: 'localhost',
+  user: 'user',
+  password: 'password',
+  database: 'e2ecubbit'
+})
 
 // const { DBNAME, PORT } = config
 
 async function main() {
   try {
     // if (!PORT || !DBNAME) throw new Error('Config Does Not Exist!')
+    pool.getConnection(function (err, c) {
+      if (err) console.log(err)
+      c.query('SELECT 1+1;')
+      c.release()
+      console.log('db healty!')
+    })
 
     app.listen(5000, () => console.log(`Server running on port ${5000}`))
   } catch (error) {
