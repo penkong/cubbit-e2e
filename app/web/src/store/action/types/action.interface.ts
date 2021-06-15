@@ -13,11 +13,25 @@ export interface IE2ELoadingAction {
 }
 
 export interface IE2ESendHashedAction {
-  type: E2EActionEnum.SEND_HASHE
+  type: E2EActionEnum.SEND_HASHED
   payload: { hashed: string; key: string }
 }
+
+export interface IE2EKeyAction {
+  type: E2EActionEnum.ADD_KEY
+  payload: string
+}
+
+export interface IE2EVerifyEncryptionAction {
+  type: E2EActionEnum.VERIFYENCRYPTION
+  payload: { show: boolean; fileId: string; loading: boolean }
+}
+
+// ---
 
 export type E2EAction =
   | IE2EFileMetaAction
   | IE2ELoadingAction
   | IE2ESendHashedAction
+  | IE2EKeyAction
+  | IE2EVerifyEncryptionAction

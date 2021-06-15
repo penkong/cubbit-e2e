@@ -2,15 +2,11 @@
  ** Description :
  */
 
-// import { Dispatch } from 'redux'
-import { IApplicationStateModel } from '../../store.interface'
-import { RootState } from '../../reducers/root.reducer'
-
 import axios from 'axios'
-import { E2EActionEnum } from '../types'
 import { Dispatch } from 'redux'
-const concat = require('concat-stream')
-const fs = require('fs')
+
+import { E2EActionEnum } from '../types'
+import { IApplicationStateModel } from '../../store.interface'
 
 // ---
 
@@ -24,6 +20,21 @@ export const E2ELoadingAction = (payload: boolean) => ({
   payload
 })
 
+export const E2EKeyAction = (payload: string) => ({
+  type: E2EActionEnum.LOADING,
+  payload
+})
+
+export const E2EVerifyEncryptionAction = (payload: {
+  show: boolean
+  fileId: string
+  loading: false
+}) => ({
+  type: E2EActionEnum.VERIFYENCRYPTION,
+  payload
+})
+
+// not in reducer - it play as dispatcher
 export const E2ESendHashedAction = (payload: {
   hashed: string
   key: string
@@ -31,19 +42,30 @@ export const E2ESendHashedAction = (payload: {
   //
 
   try {
-    const {
-      e2e: { name, size }
-    } = getState()
-    dispatch(E2ELoadingAction(true))
     dispatch(E2EKeyAction(payload.key))
+
+    const {
+      e2e: { name, size, mime }
+    } = getState()
+
     let formData = new FormData()
-    formData.append('ffff', payload.hashed)
+
+    formData.append('data', payload.hashed)
+    formData.append('name', name)
+    formData.append('size', size)
+    formData.append('mime', mime)
+
     const res = await axios.post('http://localhost:5000/v1/files', formData)
+
     console.log(res.data)
-    // return {
-    //   type: E2EActionEnum.SEND_HASHE,
-    // payload
-    // }
+    // if (res.data[0])
+    //   dispatch(
+    //     E2EVerifyEncryptionAction({
+    //       show: true,
+    //       fileId: res.data[0].fileId,
+    //       loading: false
+    //     })
+    //   )
   } catch (error) {
     console.log(error)
   }

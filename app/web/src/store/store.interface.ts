@@ -3,7 +3,7 @@ import { RouterState } from 'connected-react-router'
 // ---
 
 export interface IE2EStateModel {
-  laoding: boolean
+  loading: boolean
   show: boolean
   name: string
   mime: string

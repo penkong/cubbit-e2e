@@ -17,6 +17,7 @@ import {
   fileToArrayBuffer
 } from '../../../util'
 import { useActions } from '../../../hooks'
+import { CuteSpinner } from '../..'
 
 // ---
 
@@ -32,6 +33,7 @@ export const UploadDownload = () => {
   const forDrop = useRef<any>()
 
   const [inLoading, setInLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [file, setFile] = useState<File>()
 
@@ -100,7 +102,7 @@ export const UploadDownload = () => {
   const onFileUpload = async () => {
     try {
       const key = makeKey()
-
+      setLoading(true)
       E2ESendHashedAction({ hashed: await hashWorker(data!, key), key })
 
       //
@@ -111,44 +113,44 @@ export const UploadDownload = () => {
 
   // ---
 
+  if (loading) {
+    return <CuteSpinner />
+  }
+
   return (
     <>
       <SubHeaderStyled>{t('adver')}</SubHeaderStyled>
-
       <UploaderStyled>
         <div className="droparea" ref={forDrop}>
-          {inLoading ? (
-            <div>helfdsf</div>
-          ) : (
-            (!file && !inLoading && (
-              <>
-                <input
-                  type="file"
-                  id="filePicker"
-                  // accept={`text/*,.txt,.json,.ts,.js,.tsx,.cpp,.h,.csv,.doc,.docx,
-                  // application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
-                  // application/vnd.ms-excel,${allStringFormats.join(',')}`}
-                  accept="*"
-                  onChange={e => {
-                    onFileChange(e.target.files![0])
-                  }}
-                />
-                <label htmlFor="filePicker" className="button">
-                  <img src="/files/dl.png" alt="download" />
-                  <div>{t('choose')}</div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-                  </svg>
-                </label>
+          {(!file && !inLoading && (
+            <>
+              <input
+                type="file"
+                id="filePicker"
+                // accept={`text/*,.txt,.json,.ts,.js,.tsx,.cpp,.h,.csv,.doc,.docx,
+                // application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                // application/vnd.ms-excel,${allStringFormats.join(',')}`}
+                accept="*"
+                onChange={e => {
+                  onFileChange(e.target.files![0])
+                }}
+              />
+              <label htmlFor="filePicker" className="button">
+                <img src="/files/dl.png" alt="download" />
+                <div>{t('choose')}</div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                </svg>
+              </label>
 
-                <p>or drop files here up to 500MB</p>
-              </>
-            )) ||
+              <p>or drop files here up to 500MB</p>
+            </>
+          )) ||
             (file && !inLoading && (
               <div className="readyforhash">
                 <img src="/files/readyforhash.png" alt="ready for upload" />
@@ -171,8 +173,7 @@ export const UploadDownload = () => {
                   </div>
                 )}
               </div>
-            ))
-          )}
+            ))}
         </div>
       </UploaderStyled>
 

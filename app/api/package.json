@@ -47,6 +47,7 @@
     ]
   },
   "dependencies": {
+    "@types/formidable": "^1.2.2",
     "dotenv": "^10.0.0",
     "formidable": "^1.2.2"
   }

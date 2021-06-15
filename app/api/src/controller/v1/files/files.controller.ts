@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http'
 
-// import { getBody } from '../../../util'
-const formidable = require('formidable')
 const util = require('util')
+const formidable = require('formidable')
+
 // ---
 
 export async function files(
@@ -11,32 +11,23 @@ export async function files(
   res: ServerResponse
 ) {
   try {
-    // get body from buffer to string
-    // const body = await getBody(req)
-    // console.log(body)
     var form = new formidable.IncomingForm()
-    console.log(req.headers)
+
+    form.maxFieldsSize = 512 * 1024 * 1024
+
     form.parse(req, function (err: any, fields: any, files: any) {
       if (err) {
-        // Check for and handle any errors here.
         console.error(err.message)
-        return
+        throw new Error(err)
       }
-      // console.log(fields)
-      // console.log(files)
+
+      console.log(fields.data)
+
       res.writeHead(200, { 'content-type': 'text/plain' })
       res.write('received upload:\n\n')
 
-      // This last line responds to the form submission with a list of the parsed data and files.
-
-      res.end(util.inspect({ fields: fields.ffff, files: files }))
+      res.end(util.inspect({ fields: fields, files: files }))
     })
-    return
-
-    // res.writeHead(201, { 'Content-Type': 'application/json' })
-    // res.write(JSON.stringify(['h']))
-    // res.end()
-
     return
   } catch (error) {
     res.writeHead(400, { 'Content-Type': 'application/json' })

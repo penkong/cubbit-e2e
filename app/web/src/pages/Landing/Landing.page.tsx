@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import { FC, useEffect } from 'react'
 
+import { showSelector } from '../../store'
 import { useTypedSelector } from '../../hooks'
-import { loadingSelector, showSelector } from '../../store'
-import { CuteSpinner, ShowStaticFile, UploadDownload } from '../../components'
+import { ShowStaticFile, UploadDownload } from '../../components'
 
 // ---
 
@@ -12,16 +12,13 @@ interface IAppProps {}
 
 export const Landing: FC<IAppProps> = () => {
   const show = useTypedSelector(showSelector)
-  const loading = useTypedSelector(loadingSelector)
+  // const loading = useTypedSelector(loadingSelector)
 
-  // ---
+  useEffect(() => {}, [show])
 
-  if (loading && !show) {
-    return <CuteSpinner />
-  }
-  if (show) {
-    return <ShowStaticFile />
-  }
+  // if (loading && !show) return <CuteSpinner />
 
-  return !show && !loading ? <UploadDownload /> : null
+  if (show) return <ShowStaticFile />
+
+  return !show ? <UploadDownload /> : null
 }

@@ -32,9 +32,9 @@ INSERT INTO info (
   created_at) 
 VALUES (
   UUID_TO_BIN(UUID()), 
-  'example.txt', 
-  './init.sql', 
-  '234556', 
-  'text/sql', 
+  'example.txt!', 
+  './init.sql?', 
+  '23455654353', 
+  'text/sql?', 
   NOW()
 );
