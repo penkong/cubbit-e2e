@@ -1,19 +1,14 @@
 import { History } from 'history'
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
-import { connectRouter, RouterState } from 'connected-react-router'
+import { connectRouter } from 'connected-react-router'
 
 import storage from 'redux-persist/lib/storage'
 
 import { history } from '../../util'
-import { e2eReducer, IE2EStateModel } from './e2e.reducer'
+import { e2eReducer } from './e2e.reducer'
 
 // ---
-
-export interface IApplicationStateModel {
-  e2e: IE2EStateModel
-  router: RouterState
-}
 
 // ---
 
