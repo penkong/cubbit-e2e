@@ -1,5 +1,5 @@
-upbuild: up
-	up --build 
+upbuild:
+	cd infra/docker && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build 
 
 up:
 	cd infra/docker && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up 

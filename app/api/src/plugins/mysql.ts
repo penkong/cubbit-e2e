@@ -19,12 +19,11 @@ export default fp(async (fastify, opts) => {
       promise: true,
       connectionString
     })
-    .ready(() => {
+    .ready(async () => {
+      const connection = await fastify.mysql.getConnection()
+      await connection.query('SELECT 1+1;')
+      connection.release()
       console.log('db connected!!!')
-
-      // const connection = await fastify.mysql.getConnection()
-      // const [rows, _] = await connection.query('SHOW DATABASES;')
-      // connection.release()
     })
 })
 

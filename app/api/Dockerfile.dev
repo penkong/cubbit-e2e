@@ -2,14 +2,23 @@
 # it is better PID in code
 FROM node:15.13.0-alpine
 
-RUN apk add --no-cache bash tini curl
+RUN apk add --no-cache bash tini curl 
 
+ENV WAIT_VERSION 2.7.2
 ENV PORT=5000
 
+
 RUN mkdir -p /app
+# RUN mkdir /app/wait 
+
 WORKDIR "/app"
 
 
+# ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
+# RUN chmod +x /app/wait
+
+# RUN ls -la
+# RUN cd .. && ls -la
 COPY package*.json ./
 
 
@@ -26,7 +35,7 @@ RUN npm config list \
 
 COPY --chown=node:node . .
 
-RUN cd /app/src
+# RUN cd /app/src
 
 EXPOSE 5000
 
