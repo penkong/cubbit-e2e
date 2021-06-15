@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 
 import { useTypedSelector } from '../../hooks'
 import { loadingSelector, showSelector } from '../../store'

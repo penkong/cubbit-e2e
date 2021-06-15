@@ -1,6 +1,6 @@
 import { useWorker } from '@koale/useworker'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import {
   BtnStyled,
@@ -10,11 +10,11 @@ import {
 } from './UploadDownload.styled'
 
 import {
-  allStringFormats,
-  ecnryptor,
-  fileToArrayBuffer,
+  // allStringFormats,
+  makeKey,
   history,
-  makeKey
+  ecnryptor,
+  fileToArrayBuffer
 } from '../../../util'
 import { useActions } from '../../../hooks'
 

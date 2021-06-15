@@ -25,7 +25,7 @@ export const E2ESendHashedAction = (payload: {
 }) => async (dispatch: Dispatch) => {
   //
 
-  dispatch(E2ELoadingAction(true))
+  // dispatch(E2ELoadingAction(true))
 
   return {
     type: E2EActionEnum.SEND_HASHE,

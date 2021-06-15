@@ -16,7 +16,7 @@ COPY --chown=node package*.json ./
 RUN npm config set unsafe-perm true --allow-root
 # we use npm ci here so only the package-lock.json file is used
 RUN npm config list \
-    && npm ci \
+    && npm ci --legacy-peer-deps \
     && npm cache clean --force
 
 COPY --chown=node . .

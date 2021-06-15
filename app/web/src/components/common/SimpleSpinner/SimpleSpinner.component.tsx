@@ -1,3 +1,4 @@
+import React from 'react'
 import './SimpleSpinner.style.scss'
 
 export function SimpleSpinner() {
