@@ -4,9 +4,9 @@ export async function ecnryptor(info: string | ArrayBuffer, key: string) {
   let parameters = { iter: 1000 }
   let rp = {}
   const dkey = atob(key)
-  await sjcl(dkey, parameters)
+  await sjcl.misc.cachedPbkdf2(dkey, parameters)
   // produce cipherTextJson
-  return await sjcl.encrypt(dkey, info, parameters, rp)
+  return btoa(await sjcl.encrypt(dkey, info, parameters, rp))
 }
 
 //

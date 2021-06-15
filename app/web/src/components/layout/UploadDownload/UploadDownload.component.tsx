@@ -2,14 +2,13 @@ import { useWorker } from '@koale/useworker'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useRef, useState } from 'react'
 
-// import { useDispatch } from 'react-redux'
-
 import {
   BtnStyled,
   BtnRowStyled,
   UploaderStyled,
   SubHeaderStyled
 } from './UploadDownload.styled'
+
 import {
   allStringFormats,
   ecnryptor,
@@ -17,35 +16,69 @@ import {
   history,
   makeKey
 } from '../../../util'
-import { useDispatch } from 'react-redux'
+import { useActions } from '../../../hooks'
 
 // ---
-
-interface IFile {
-  name: string
-  mime: string
-  size: string
-  key: string
-}
 
 // ---
 
 export const UploadDownload = () => {
+  //
+
   const { t } = useTranslation()
-  const dispatch = useDispatch()
+
+  const { E2EFileMetaAction, E2ESendHashedAction } = useActions()
+
   const forDrop = useRef<any>()
 
   const [inLoading, setInLoading] = useState(false)
 
-  const [file, setFile] = useState<IFile>()
-  const [info, setInfo] = useState<string | ArrayBuffer | null | undefined>()
+  const [file, setFile] = useState<File>()
+
+  const [data, setData] = useState<string | ArrayBuffer | null | undefined>()
 
   // --- web worker
+
   const [hashWorker] = useWorker(ecnryptor, {
     remoteDependencies: [
       'https://cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.8/sjcl.js'
     ]
   })
+
+  // ---
+
+  // both onFileChange and handleDrop use this function as DRY.
+  const fileHandler = async (f: File) => {
+    setInLoading(true)
+
+    setFile(f)
+    E2EFileMetaAction(f)
+
+    if (window.File && window.FileReader && window.FileList && window.Blob)
+      // because of crypto-js problem with webpack 5 it currently read to text
+      // not ArrayBuffer . check public/files/ -> there is snap shot there.
+      setData(await fileToArrayBuffer(f))
+
+    setInLoading(false)
+  }
+
+  // ----
+
+  const handleDrag = (e: DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const f = e.dataTransfer.files[0]
+
+    f && (await fileHandler(f))
+  }
+
+  const onFileChange = async (f: File) => await fileHandler(f)
 
   // ---
 
@@ -59,42 +92,17 @@ export const UploadDownload = () => {
         div.removeEventListener('drop', handleDrop)
       }
     }
-    console.log(inLoading)
-  }, [t, inLoading])
+  }, [t])
 
   // ---
 
-  const handleDrag = (e: any) => {
-    e.preventDefault()
-    e.stopPropagation()
-  }
-
-  const handleDrop = (e: any) => {
-    e.preventDefault()
-    e.stopPropagation()
-    e.dataTransfer.files && setFile(e.dataTransfer.files)
-  }
-
-  const onFileChange = async (f: File) => {
-    //
-
-    setFile({
-      name: file?.name!,
-      size: file?.size!,
-      mime: file?.mime!,
-      key: makeKey() // base64
-    })
-
-    if (window.File && window.FileReader && window.FileList && window.Blob)
-      setInfo(await fileToArrayBuffer(f))
-  }
-
   const onFileUpload = async () => {
-    dispatchEvent()
     try {
-      const hashed = await hashWorker(info!, file?.key!)
-      console.log(hashed)
-      // diapatch({ ...file! , info: hashed})
+      const key = makeKey()
+
+      E2ESendHashedAction({ hashed: await hashWorker(data!, key), key })
+
+      //
     } catch (error) {
       console.log(error)
     }
@@ -120,9 +128,7 @@ export const UploadDownload = () => {
                   application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
                   application/vnd.ms-excel,${allStringFormats.join(',')}`}
                   onChange={e => {
-                    setInLoading(true)
                     onFileChange(e.target.files![0])
-                    setInLoading(false)
                   }}
                 />
                 <label htmlFor="filePicker" className="button">
@@ -143,7 +149,7 @@ export const UploadDownload = () => {
             (file && !inLoading && (
               <div className="readyforhash">
                 <img src="/files/readyforhash.png" alt="ready for upload" />
-                <div>{file ? 'sdfsd' : null}</div>
+                <div>{file ? file.name : null}</div>
                 {file && (
                   <div
                     style={{
