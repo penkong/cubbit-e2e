@@ -4,8 +4,10 @@ USE e2ecubbit;
 
 CREATE TABLE IF NOT EXISTS user (
   user_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  created_at TIMESTAMP,
-  name varchar(100)
+  name varchar(100) NOT NULL,
+  app_name varchar(100) NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  deleted_at TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS info (
@@ -20,11 +22,19 @@ CREATE TABLE IF NOT EXISTS info (
   FOREIGN KEY (owner) REFERENCES user(user_id)
 );
 
-INSERT INTO user (name) VALUES ('Mazdak Nazemi');
+INSERT INTO user (name, app_name, created_at) VALUES ('Mazdak Nazemi', 'Cubbit Vult!', NOW());
 INSERT INTO info (
   file_id, 
   name, 
   address, 
   file_size, 
   file_mime , 
-  created_at) VALUES (UUID_TO_BIN(UUID()), 'example.txt', './init.sql', '234556', 'text/sql', NOW());
+  created_at) 
+VALUES (
+  UUID_TO_BIN(UUID()), 
+  'example.txt', 
+  './init.sql', 
+  '234556', 
+  'text/sql', 
+  NOW()
+);
