@@ -16,6 +16,6 @@ export function fileToArrayBuffer(
     // encrypt other formats like jpeg and pdf and ...
     // reader.readAsArrayBuffer(file)
 
-    reader.readAsBinaryString(file)
+    reader.readAsDataURL(file)
   })
 }

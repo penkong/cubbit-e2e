@@ -1,4 +1,9 @@
+import './Nunito/Nunito-Black.ttf'
+import './Nunito/Nunito-Light.ttf'
+import './Nunito/Nunito-SemiBold.ttf'
+import './Nunito/Nunito-SemiBold.ttf'
 import './styles/index.css'
+
 import GlobalStyles from './styles/global'
 
 import React from 'react'

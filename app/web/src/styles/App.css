@@ -12,3 +12,21 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: 'Nunito';
+  font-weight: 400;
+  src: local('Lato'), url('./Nunito/Nunito-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunti';
+  font-weight: 700;
+  src: local('Lato'), url('./Nunito/Nunito-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunti';
+  font-weight: 900;
+  src: local('Lato'), url('./Nunito/Nunito-ExtraBold.ttf') format('truetype');
+}

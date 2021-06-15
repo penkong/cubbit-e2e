@@ -54,10 +54,13 @@ export const UploadDownload = () => {
     setFile(f)
     E2EFileMetaAction(f)
 
-    if (window.File && window.FileReader && window.FileList && window.Blob)
-      // because of crypto-js problem with webpack 5 it currently read to text
-      // not ArrayBuffer . check public/files/ -> there is snap shot there.
-      setData(await fileToArrayBuffer(f))
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+      const sl = await fileToArrayBuffer(f)
+      console.log(sl)
+      setData(sl)
+    }
+    // because of crypto-js problem with webpack 5 it currently read to text
+    // not ArrayBuffer . check public/files/ -> there is snap shot there.
 
     setInLoading(false)
   }
@@ -124,9 +127,10 @@ export const UploadDownload = () => {
                 <input
                   type="file"
                   id="filePicker"
-                  accept={`text/*,.txt,.json,.ts,.js,.tsx,.cpp,.h,.csv,.doc,.docx,
-                  application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
-                  application/vnd.ms-excel,${allStringFormats.join(',')}`}
+                  // accept={`text/*,.txt,.json,.ts,.js,.tsx,.cpp,.h,.csv,.doc,.docx,
+                  // application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                  // application/vnd.ms-excel,${allStringFormats.join(',')}`}
+                  accept="*"
                   onChange={e => {
                     onFileChange(e.target.files![0])
                   }}
