@@ -5,7 +5,7 @@ import { FastifyPluginAsync } from 'fastify'
 // const util = require('util')
 // const { pipeline } = require('stream')
 // const pump = util.promisify(pipeline)
-
+// await pump(data.file, fs.createWriteStream(join('outputed', data.filename)))
 // ---
 
 const e2e: FastifyPluginAsync = async (fastify, opts): Promise<void> => {

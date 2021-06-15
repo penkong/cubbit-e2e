@@ -3,6 +3,12 @@ import { IncomingMessage, ServerResponse } from 'http'
 const util = require('util')
 const formidable = require('formidable')
 
+import { join } from 'path'
+
+const fs = require('fs')
+const { pipeline } = require('stream')
+const pump = util.promisify(pipeline)
+
 // ---
 
 export async function files(
@@ -15,21 +21,28 @@ export async function files(
 
     form.maxFieldsSize = 512 * 1024 * 1024
 
-    form.parse(req, function (err: any, fields: any, files: any) {
-      if (err) {
-        console.error(err.message)
-        throw new Error(err)
-      }
+    form.parse(req, async function (err: any, fields: any, _files: any) {
+      //
 
-      console.log(fields.data)
+      if (err) throw new Error(err)
 
-      res.writeHead(200, { 'content-type': 'text/plain' })
-      res.write('received upload:\n\n')
+      const { data, size, name } = fields
 
-      res.end(util.inspect({ fields: fields, files: files }))
+      await pump(
+        data,
+        fs.createWriteStream(join('outputAsS3Bucket', name + size + '.txt'))
+      )
+
+      res.writeHead(200, { 'content-type': 'application/json' })
+      res.end(JSON.stringify([{ fileId: 'i am uuid for example' }]))
+
+      //
     })
+
     return
   } catch (error) {
+    //
+
     res.writeHead(400, { 'Content-Type': 'application/json' })
     res.write(JSON.stringify([{ message: error }]))
     res.end()

@@ -58,14 +58,14 @@ export const E2ESendHashedAction = (payload: {
     const res = await axios.post('http://localhost:5000/v1/files', formData)
 
     console.log(res.data)
-    // if (res.data[0])
-    //   dispatch(
-    //     E2EVerifyEncryptionAction({
-    //       show: true,
-    //       fileId: res.data[0].fileId,
-    //       loading: false
-    //     })
-    //   )
+    if (res.data[0])
+      dispatch(
+        E2EVerifyEncryptionAction({
+          show: true,
+          fileId: res.data[0].fileId,
+          loading: false
+        })
+      )
   } catch (error) {
     console.log(error)
   }
