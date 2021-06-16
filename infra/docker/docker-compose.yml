@@ -28,20 +28,20 @@ services:
           cpus: '1'
           memory: '512M'
 
-  # api:
-  #   build: 
-  #     context: ../../app/api
-  #   restart: always
-  #   depends_on:
-  #     - sql
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '1'
-  #         memory: '1G'
-  #       reservations:
-  #         cpus: '1'
-  #         memory: '512M'
+  api:
+    build: 
+      context: ../../app/api
+    restart: always
+    depends_on:
+      - sql
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '1G'
+        reservations:
+          cpus: '1'
+          memory: '512M'
 
   # web: 
   #   build:
@@ -55,10 +55,10 @@ services:
   #       reservations:
   #         cpus: '1'
   #         memory: '512M'
-    # depends_on: 
-    #   - api
-    #   - sql
-    # tty: true
+  #   depends_on: 
+  #     - api
+  #     - sql
+  #   tty: true
 
 volumes:
   sqlvol:

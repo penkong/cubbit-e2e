@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
 
 import { Landing, FileGetter } from './pages'
-import { ErrorBoundary, SimpleSpinner, Header, MainLayout } from './components'
+import { ErrorBoundary, CuteSpinner, Header, MainLayout } from './components'
 
 // ---
 
@@ -13,7 +13,7 @@ export const App = () => {
       <Header />
       <Switch location={location} key={location.pathname}>
         <ErrorBoundary>
-          <Suspense fallback={<SimpleSpinner />}>
+          <Suspense fallback={<CuteSpinner />}>
             <Route
               exact
               path="/getter"

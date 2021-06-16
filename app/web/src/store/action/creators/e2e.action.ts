@@ -8,6 +8,10 @@ import { Dispatch } from 'redux'
 import { E2EActionEnum } from '../types'
 import { IApplicationStateModel } from '../../store.interface'
 
+// const url = process.env.REACT_APP_API || 'http://localhost:5000'
+// const url = 'http://api:5000' || 'http://localhost:5000'
+const url = 'http://localhost:5000'
+
 // ---
 
 export const E2EClearStoreAction = () => ({
@@ -69,8 +73,7 @@ export const E2ESendHashedAction = (payload: {
     formData.append('name', name)
     formData.append('size', size)
     formData.append('mime', mime)
-
-    const res = await axios.post('http://localhost:5000/v1/files', formData)
+    const res = await axios.post(url + '/v1/files', formData)
 
     if (res.data[0])
       dispatch(
@@ -90,9 +93,7 @@ export const E2EGetFileInfoAction = (payload: { fileId: string }) => async (
   dispatch: Dispatch
 ) => {
   try {
-    const res = await axios.get(
-      'http://localhost:5000/v1/files/' + payload.fileId
-    )
+    const res = await axios.get(url + '/v1/files/' + payload.fileId)
 
     const { fileId, mime, name, size } = res.data[0]
 

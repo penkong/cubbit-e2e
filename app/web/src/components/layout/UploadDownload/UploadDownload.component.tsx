@@ -42,9 +42,7 @@ export const UploadDownload = () => {
   // --- web worker
 
   const [hashWorker] = useWorker(ecnryptor, {
-    remoteDependencies: [
-      'https://cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.8/sjcl.js'
-    ]
+    remoteDependencies: [process.env.REACT_APP_SJCL!]
   })
 
   // ---
@@ -127,9 +125,6 @@ export const UploadDownload = () => {
               <input
                 type="file"
                 id="filePicker"
-                // accept={`text/*,.txt,.json,.ts,.js,.tsx,.cpp,.h,.csv,.doc,.docx,
-                // application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
-                // application/vnd.ms-excel,${allStringFormats.join(',')}`}
                 accept="*"
                 onChange={e => {
                   onFileChange(e.target.files![0])
