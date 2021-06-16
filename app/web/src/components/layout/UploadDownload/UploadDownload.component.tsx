@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useWorker } from '@koale/useworker'
 import { useTranslation } from 'react-i18next'
 import React, { useEffect, useRef, useState } from 'react'
@@ -9,15 +10,9 @@ import {
   SubHeaderStyled
 } from './UploadDownload.styled'
 
-import {
-  // allStringFormats,
-  makeKey,
-  history,
-  ecnryptor,
-  fileToArrayBuffer
-} from '../../../util'
-import { useActions } from '../../../hooks'
 import { CuteSpinner } from '../..'
+import { useActions } from '../../../hooks'
+import { makeKey, history, ecnryptor, fileToArrayBuffer } from '../../../util'
 
 // ---
 

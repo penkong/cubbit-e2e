@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 
 import {
-  ShowStaticRowStyled,
-  ShowStaticStyled
+  ShowStaticStyled,
+  ShowStaticRowStyled
 } from './ShowStaticItemInfo.styled'
 
 // ---
@@ -14,12 +14,14 @@ interface IAppProps {
 
 export const ShowStaticItemInfo: FC<IAppProps> = ({ info, title }) => {
   const [copied, setCopied] = useState(false)
+
   const clicked = () => {
     navigator.clipboard.writeText(info)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
     clearTimeout()
   }
+
   return (
     <ShowStaticStyled>
       <div className="title">{title}</div>

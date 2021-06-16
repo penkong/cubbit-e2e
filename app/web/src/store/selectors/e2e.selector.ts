@@ -24,3 +24,5 @@ export const readyDownloadSelector = createSelector(
   domain,
   ({ fileId, name, size, mime }) => ({ fileId, name, size, mime })
 )
+
+export const errorMsgSelector = createSelector(domain, e => e.errorMsg)

@@ -20,27 +20,32 @@ import { readyDownloadSelector } from '../../store'
 import { CuteSpinner, FileItemRow } from '../../components'
 import { useActions, useTypedSelector } from '../../hooks/'
 
-const fs = require('fs')
 const toFile = require('data-uri-to-file')
 
 // ---
 
 export const FileGetter = () => {
   //
+  const [loading, setLoading] = useState(false)
+
+  const [f, setF] = useState<{ fileId: string }>()
+
+  const [k, setK] = useState<{ encKey: string }>()
 
   const { E2EClearStoreAction, E2EGetFileInfoAction } = useActions()
+
   const { fileId: fid, mime, name, size } = useTypedSelector(
     readyDownloadSelector
   )
+
+  // ---
+
+  // web worker for decryption :)
   const [decryptWorker] = useWorker(decryptor, {
     remoteDependencies: [process.env.REACT_APP_SJCL!]
   })
 
-  const [loading, setLoading] = useState(false)
-
-  const [f, setF] = useState<{ fileId: string }>()
-  const [k, setK] = useState<{ encKey: string }>()
-
+  // clear store on load up .
   useEffect(() => {
     E2EClearStoreAction()
   }, [])
