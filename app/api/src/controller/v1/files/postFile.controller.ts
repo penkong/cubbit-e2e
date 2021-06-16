@@ -7,13 +7,13 @@ const { pipeline } = require('stream')
 const formidable = require('formidable')
 
 import { pool } from '../../../service'
-import { insertInfo, selectById } from '../../../query/'
+import { insertInfo, selectById } from '../../../query'
 
 // ---
 
 const pump = util.promisify(pipeline)
 
-export async function files(
+export async function postfile(
   _url: URL,
   req: IncomingMessage,
   res: ServerResponse

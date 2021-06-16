@@ -26,7 +26,7 @@ export const RowStyled = styled.div`
   font-size: 16px;
   .label {
     padding-top: auto;
-    margin-top: 2px;
+    margin-top: -0.5px;
     color: white;
     width: 25%;
     text-align: right;
@@ -46,6 +46,7 @@ export const RowStyled = styled.div`
   input {
     color: white;
     width: 75%;
+    padding-top: 0.4px;
     @media (max-width: 375px) {
       width: 80%;
       font-size: 10px;
@@ -53,7 +54,7 @@ export const RowStyled = styled.div`
     background-color: #292929;
     border: 1px solid #363636;
     text-align: left;
-    height: 30px;
+    height: 32px;
     border-radius: 3px;
     padding-left: 15px;
   }

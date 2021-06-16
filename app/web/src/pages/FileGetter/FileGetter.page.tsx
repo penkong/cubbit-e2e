@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   BtnStyled,
@@ -12,31 +12,53 @@ import {
   GetterContainerStyled
 } from './FileGetter.styled'
 
-import { FileItemRow } from '../../components'
+import { readyDownloadSelector } from '../../store'
+import { CuteSpinner, FileItemRow } from '../../components'
+import { useActions, useTypedSelector } from '../../hooks/'
 
 // ---
 
 export const FileGetter = () => {
-  const [state, setstate] = useState(true)
+  //
 
-  if (state) {
+  const { E2EClearStoreAction, E2EGetFileInfoAction } = useActions()
+  const { fileId: fid, mime, name, size } = useTypedSelector(
+    readyDownloadSelector
+  )
+
+  const [loading, setLoading] = useState(false)
+
+  const [f, setF] = useState<{ fileId: string }>()
+
+  useEffect(() => {
+    E2EClearStoreAction()
+  }, [])
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setF({ fileId: e.target.value.toString() })
+  }
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    f && E2EGetFileInfoAction(f)
+  }
+
+  if (fid || mime || name || size) {
     return (
       <DownloadContainer>
         <RowContainer>
-          <FileItemRow
-            label={'File id:'}
-            info={'307f8f11-f51f-41a2-ba17-3e112dce56a4'}
-          />
-          <FileItemRow label={'File name:'} info={'example_file.txt'} />
-          <FileItemRow label={'File size:'} info={'100Kb'} />
-          <FileItemRow label={'File mime:'} info={'text/plain'} />
+          <FileItemRow label={'File id:'} info={fid} />
+          <FileItemRow label={'File name:'} info={name} />
+          <FileItemRow label={'File size:'} info={size} />
+          <FileItemRow label={'File mime:'} info={mime} />
         </RowContainer>
         <InsertKeyRowStyled>
           <TitleStyled>Insert your encryption key:</TitleStyled>
           <div>
             <EncryptionInputStyled
               type="text"
-              defaultValue="pTBydX1OncWG62XXgOifP"
+              placeholder="please enter your key here!"
             />
           </div>
         </InsertKeyRowStyled>
@@ -47,19 +69,25 @@ export const FileGetter = () => {
     )
   }
 
+  if (loading) return <CuteSpinner />
+
   return (
-    <GetterContainerStyled>
-      <GetterTitleStyled>Insert your file id:</GetterTitleStyled>
-      <div>
-        <InputStyled
-          width="312px"
-          type="text"
-          value="307f8f11-f51f-41a2-ba17-3e112dce56a4"
-        />
-      </div>
-      <div>
-        <BtnStyled>Get file</BtnStyled>
-      </div>
-    </GetterContainerStyled>
+    <form onSubmit={onSubmit}>
+      <GetterContainerStyled>
+        <GetterTitleStyled>Insert your file id:</GetterTitleStyled>
+        <div>
+          <InputStyled
+            onChange={onChange}
+            name="fileId"
+            width="312px"
+            type="text"
+            placeholder="please insert your file id!"
+          />
+        </div>
+        <div>
+          <BtnStyled type="submit">Get file</BtnStyled>
+        </div>
+      </GetterContainerStyled>
+    </form>
   )
 }

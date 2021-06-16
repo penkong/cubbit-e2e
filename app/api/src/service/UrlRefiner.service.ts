@@ -20,7 +20,7 @@ export class UrlRefiner {
     const r = req.method + url.pathname
 
     if (!validRoutes.includes(r)) isOk = false
-    if (r.includes(validRoutes[5])) isOk = true
+    if (r.includes(validRoutes[1])) isOk = true
 
     return isOk
   }

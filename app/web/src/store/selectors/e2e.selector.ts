@@ -19,3 +19,8 @@ export const staticSelector = createSelector(
     fileId
   })
 )
+
+export const readyDownloadSelector = createSelector(
+  domain,
+  ({ fileId, name, size, mime }) => ({ fileId, name, size, mime })
+)

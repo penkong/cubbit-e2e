@@ -32,12 +32,29 @@ export interface IE2EClearStoreAction {
   payload: null
 }
 
+export interface IE2EGetFileInfoAction {
+  type: E2EActionEnum.GETFILEINFO
+  payload: { fileId: string }
+}
+
+export interface IE2EReadyDownloadAction {
+  type: E2EActionEnum.READYDOWNLOAD
+  payload: {
+    fileId: string
+    mime: string
+    name: string
+    size: string
+  }
+}
+
 // ---
 
 export type E2EAction =
-  | IE2EFileMetaAction
-  | IE2ELoadingAction
-  | IE2ESendHashedAction
   | IE2EKeyAction
-  | IE2EVerifyEncryptionAction
+  | IE2ELoadingAction
+  | IE2EFileMetaAction
+  | IE2ESendHashedAction
   | IE2EClearStoreAction
+  | IE2EGetFileInfoAction
+  | IE2EReadyDownloadAction
+  | IE2EVerifyEncryptionAction

@@ -39,6 +39,16 @@ export const E2EVerifyEncryptionAction = (payload: {
   payload
 })
 
+export const E2EReadyDownloadAction = (payload: {
+  fileId: string
+  mime: string
+  name: string
+  size: string
+}) => ({
+  type: E2EActionEnum.READYDOWNLOAD,
+  payload
+})
+
 // not in reducer - it play as dispatcher
 export const E2ESendHashedAction = (payload: {
   hashed: string
@@ -70,6 +80,30 @@ export const E2ESendHashedAction = (payload: {
           loading: false
         })
       )
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// not in reducer - it play as dispatcher
+export const E2EGetFileInfoAction = (payload: { fileId: string }) => async (
+  dispatch: Dispatch
+) => {
+  try {
+    const res = await axios.get(
+      'http://localhost:5000/v1/files/' + payload.fileId
+    )
+
+    const { fileId, mime, name, size } = res.data[0]
+
+    dispatch(
+      E2EReadyDownloadAction({
+        fileId,
+        mime,
+        name,
+        size
+      })
+    )
   } catch (error) {
     console.log(error)
   }

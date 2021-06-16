@@ -1,1 +1,2 @@
-export * from './files.controller'
+export * from './postFile.controller'
+export * from './getFile.controller'
