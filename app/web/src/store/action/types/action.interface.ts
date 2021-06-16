@@ -37,6 +37,11 @@ export interface IE2EGetFileInfoAction {
   payload: { fileId: string }
 }
 
+export interface IE2EErrorMessageAction {
+  type: E2EActionEnum.ERRORMSG
+  payload: string
+}
+
 export interface IE2EReadyDownloadAction {
   type: E2EActionEnum.READYDOWNLOAD
   payload: {
@@ -56,5 +61,6 @@ export type E2EAction =
   | IE2ESendHashedAction
   | IE2EClearStoreAction
   | IE2EGetFileInfoAction
+  | IE2EErrorMessageAction
   | IE2EReadyDownloadAction
   | IE2EVerifyEncryptionAction

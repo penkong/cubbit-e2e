@@ -33,7 +33,21 @@ export const InputStyled = styled.input<{ width: string }>`
   font-family: 'Nunito', sans-serif;
 `
 
-export const BtnStyled = styled.button`
+export const BtnStyled = styled.a`
+  background-color: #ffa047;
+  &:hover {
+    background-color: #ff8b1e;
+  }
+  margin-left: -1vh;
+  border-radius: 3px;
+  color: white;
+  width: 216px;
+  height: 48px;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 2vh;
+`
+export const BtnStyledF = styled.button`
   background-color: #ffa047;
   &:hover {
     background-color: #ff8b1e;

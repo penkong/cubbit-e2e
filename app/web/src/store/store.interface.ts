@@ -6,6 +6,7 @@ export interface IE2EStateModel {
   loading: boolean
   show: boolean
   name: string
+  errorMsg: string
   mime: string
   size: string
   key: string

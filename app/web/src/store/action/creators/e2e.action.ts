@@ -52,6 +52,11 @@ export const E2EReadyDownloadAction = (payload: {
   payload
 })
 
+export const E2EErrorMessageAction = (payload: string) => ({
+  type: E2EActionEnum.ERRORMSG,
+  payload
+})
+
 // not in reducer - it play as dispatcher
 export const E2ESendHashedAction = (payload: {
   hashed: string
@@ -84,6 +89,7 @@ export const E2ESendHashedAction = (payload: {
       )
   } catch (error) {
     console.log(error)
+    dispatch(E2EErrorMessageAction('Bad Things!'))
   }
 }
 
@@ -106,5 +112,6 @@ export const E2EGetFileInfoAction = (payload: { fileId: string }) => async (
     )
   } catch (error) {
     console.log(error)
+    dispatch(E2EErrorMessageAction('Wrong Input!'))
   }
 }

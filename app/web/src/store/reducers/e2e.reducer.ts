@@ -8,6 +8,7 @@ import { E2EAction, E2EActionEnum } from '../action/types/'
 const {
   ADD_KEY,
   LOADING,
+  ERRORMSG,
   FILE_META,
   CLEARSTORE,
   READYDOWNLOAD,
@@ -17,6 +18,7 @@ const {
 const initialState: IE2EStateModel = {
   loading: false,
   show: false,
+  errorMsg: '',
   name: '',
   mime: '',
   size: '',
@@ -62,6 +64,17 @@ export const e2eReducer = produce(
         return
 
       case CLEARSTORE:
+        state.loading = false
+        state.show = false
+        state.fileId = ''
+        state.key = ''
+        state.mime = ''
+        state.size = ''
+        state.name = ''
+        return
+
+      case ERRORMSG:
+        state.errorMsg = action.payload
         state.loading = false
         state.show = false
         state.fileId = ''
