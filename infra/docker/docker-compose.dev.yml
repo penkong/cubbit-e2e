@@ -29,7 +29,7 @@ services:
     volumes: 
       - /app/node_modules 
       - ../../app/api:/app
-    # command: sh -c "/wait && npm run dev"
+    # command: ["./wait-for-sql.sh", "sql", "npm", "run" , "dev"]
     environment:
       - WAIT_HOSTS=sql:3306
       - WAIT_HOSTS_TIMEOUT=300

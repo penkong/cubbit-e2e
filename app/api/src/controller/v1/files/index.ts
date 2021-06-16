@@ -1,2 +1,3 @@
 export * from './postFile.controller'
-export * from './getFile.controller'
+export * from './getFileInfo.controller'
+export * from './getStatic.controller'

@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http'
 
 import { pool } from '../../../service'
-import { getRow } from '../../../query/'
+import { getRow } from '../../../query'
 
 // ---
 
