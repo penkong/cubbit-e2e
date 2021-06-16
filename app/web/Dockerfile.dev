@@ -1,0 +1,28 @@
+FROM node:15.13.0-alpine
+
+RUN apk add --no-cache bash python2 
+
+
+ENV NODE_ENV=development
+ENV API_E2E=http://localhost:5000
+
+RUN mkdir -p /app
+WORKDIR "/app"
+
+
+RUN chown -R node:node .
+USER node
+COPY --chown=node package*.json ./
+
+RUN npm config set unsafe-perm true --allow-root
+# we use npm ci here so only the package-lock.json file is used
+RUN npm config list \
+    && npm ci --legacy-peer-deps \
+    && npm cache clean --force
+
+COPY --chown=node . .
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]
+
