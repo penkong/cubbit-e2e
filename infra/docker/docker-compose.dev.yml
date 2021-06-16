@@ -44,16 +44,16 @@ services:
     ports:
       - 5000:5000
       
-  # web: 
-  #   build:
-  #     dockerfile: Dockerfile.dev
-  #   stdin_open: true
-  #   volumes: 
-  #     - /app/node_modules
-  #     - ../../app/web:/app
-  #   environment: 
-  #     - REACT_APP_API=http://api:5000
-  #     - REACT_APP_SJCL=https://cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.8/sjcl.js
-  #     - NODE_ENV=development
-  #   ports: 
-  #     - 3000:3000
+  web: 
+    build:
+      dockerfile: Dockerfile.dev
+    stdin_open: true
+    volumes: 
+      - /app/node_modules
+      - ../../app/web:/app
+    environment: 
+      - REACT_APP_API=http://api:5000
+      - REACT_APP_SJCL=https://cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.8/sjcl.js
+      - NODE_ENV=development
+    ports: 
+      - 3000:3000

@@ -43,22 +43,22 @@ services:
           cpus: '1'
           memory: '512M'
 
-  # web: 
-  #   build:
-  #     context: ../../app/web
-  #   restart: always
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '2'
-  #         memory: '1G'
-  #       reservations:
-  #         cpus: '1'
-  #         memory: '512M'
-  #   depends_on: 
-  #     - api
-  #     - sql
-  #   tty: true
+  web: 
+    build:
+      context: ../../app/web
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: '1G'
+        reservations:
+          cpus: '1'
+          memory: '512M'
+    depends_on: 
+      - api
+      - sql
+    tty: true
 
 volumes:
   sqlvol:
